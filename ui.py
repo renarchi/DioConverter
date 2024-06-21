@@ -11,7 +11,7 @@ class App:
     def __init__(self, root):
         self.root = root
         self.root.title("DioConverter 1.0.0")
-        self.root.geometry("700x400")  # Fixed window size
+        self.root.geometry("550x400")  # Fixed window size
         self.root.resizable(False, False)  # Prevent window resizing
         self.setup_ui()
         self.apply_mode()
@@ -58,13 +58,13 @@ class App:
         self.use_cuda_checkbox.grid(row=5, column=0, columnspan=3, pady=10)
 
         self.download_button = ttk.Button(self.root, text="Download", command=self.start_download, style="TButtonBorder.TButton")
-        self.download_button.grid(row=6, column=0, columnspan=3, pady=20)
-
-        self.progress_label = ttk.Label(self.root, text="", style="TLabelframe.TLabel")
-        self.progress_label.grid(row=7, column=0, columnspan=3, pady=5)
+        self.download_button.grid(row=6, column=0, columnspan=3, pady=10)
 
         self.progress = ttk.Progressbar(self.root, orient="horizontal", length=400, mode="determinate", style="Green.Horizontal.TProgressbar")
-        self.progress.grid(row=8, column=0, columnspan=3, pady=10)
+        self.progress.grid(row=7, column=0, columnspan=3, pady=10)
+
+        self.progress_label = ttk.Label(self.root, text="", style="TLabelframe.TLabel")
+        self.progress_label.grid(row=8, column=0, columnspan=3, pady=5)
 
         self.url_entry.bind("<FocusOut>", self.update_formats)
         self.url_entry.bind("<KeyRelease>", self.clear_done_message)
