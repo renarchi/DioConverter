@@ -17,29 +17,31 @@ def get_available_formats(url):
     return formats
 
 def download_video(url, format_id, output_path, output_filename='video', output_format='mp4', use_cuda=False, progress_callback=None):
+    initial_format = 'webm' if output_format in ['mkv', 'mov'] else output_format
     ydl_opts = {
         'format': f"{format_id}+bestaudio",
         'outtmpl': os.path.join(output_path, f'{output_filename}.%(ext)s'),
         'progress_hooks': [progress_callback] if progress_callback else [],
     }
 
-    if output_format in ['mkv', 'mov']:
-        ydl_opts['merge_output_format'] = 'webm'
-        ydl_opts['postprocessors'] = [{
-            'key': 'FFmpegVideoConvertor',
-            'preferedformat': output_format,
-        }]
-
-    # Add CUDA support
-    if use_cuda:
-        ydl_opts['postprocessors'] = ydl_opts.get('postprocessors', []) + [{
-            'key': 'FFmpegVideoConvertor',
-            'preferedformat': output_format,
-            'postprocessor_args': ['-c:v', 'h264_nvenc']
-        }]
-
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
         ydl.download([url])
+
+    # Convert to the desired format if necessary
+    if output_format in ['mkv', 'mov']:
+        convert_to_format(output_path, output_filename, output_format, use_cuda)
+
+def convert_to_format(output_path, output_filename, output_format, use_cuda):
+    input_file = os.path.join(output_path, f'{output_filename}.webm')
+    output_file = os.path.join(output_path, f'{output_filename}.{output_format}')
+
+    if use_cuda:
+        ffmpeg_command = f"ffmpeg -i {input_file} -c:v h264_nvenc -c:a aac {output_file}"
+    else:
+        ffmpeg_command = f"ffmpeg -i {input_file} {output_file}"
+
+    os.system(ffmpeg_command)
+    os.remove(input_file)  # Remove the intermediate .webm file
 
 def delete_webm_file(output_path, output_filename):
     webm_file = os.path.join(output_path, f'{output_filename}.webm')
