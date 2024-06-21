@@ -1,4 +1,4 @@
-# My Project
+# DioConverter
 
 This project is a GUI application that downloads and converts videos using yt-dlp. The application is built with Tkinter and supports CUDA for faster video conversion.
 
