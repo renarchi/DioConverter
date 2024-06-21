@@ -1,0 +1,3 @@
+yt-dlp
+tkinter
+ PyInstaller (for building the executable)
