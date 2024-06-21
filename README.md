@@ -4,7 +4,8 @@ This project is a GUI application that downloads and converts videos using yt-dl
 
 ## GUI
 
-![Screenshot_1](https://github.com/renarchi/DioConverter/assets/159624970/f526cd47-9bc3-4510-b8db-e1c02b35dfe2)
+
+![Screenshot_2](https://github.com/renarchi/DioConverter/assets/159624970/3fbbffda-dac0-45b8-a59f-8cc9df163030)
 
 
 ## Features
